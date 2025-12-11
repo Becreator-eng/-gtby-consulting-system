@@ -1007,20 +1007,20 @@
                 aspect-ratio: auto;
             }
 
-            /* On rapproche le label du centre, et on garde de la place pour le texte en bas */
+            /* On pousse tout un peu plus vers le bas */
             .intro-content {
-                padding: 2rem 1.5rem 5.5rem;
+                padding: 4rem 1.5rem 5rem;
                 justify-content: flex-start;
                 align-items: center;
             }
 
             .intro-label {
-                margin-top: 2.4rem;
+                margin-top: 3rem;
                 font-size: 0.8rem;
             }
 
             .intro-cta-text {
-                bottom: 2.4rem;
+                bottom: 2.8rem;
                 font-size: 0.9rem;
                 letter-spacing: 0.18em;
             }
@@ -1632,16 +1632,37 @@
                 if (e.key === 'ArrowRight') showNext(1);
                 if (e.key === 'ArrowLeft') showNext(-1);
             });
+
+            // Swipe au doigt sur mobile pour passer d'une image à l'autre
+            let touchStartX = null;
+
+            lightbox.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    touchStartX = e.touches[0].clientX;
+                }
+            }, { passive: true });
+
+            lightbox.addEventListener('touchend', (e) => {
+                if (touchStartX === null) return;
+                const endX = e.changedTouches[0].clientX;
+                const deltaX = endX - touchStartX;
+
+                // Seuil pour considérer que c’est un vrai swipe
+                if (Math.abs(deltaX) > 40) {
+                    if (deltaX < 0) {
+                        showNext(1);
+                    } else {
+                        showNext(-1);
+                    }
+                }
+
+                touchStartX = null;
+            });
         })();
 
         // Anti-copy protection (context menu, drag, long-press on images)
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
-        document.addEventListener('touchstart', event => {
-            if (event.target.tagName === 'IMG') {
-                event.preventDefault();
-            }
-        }, { passive: false });
     </script>
 </body>
 </html>
