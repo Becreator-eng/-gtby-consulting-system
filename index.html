@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTBY - Strategic AI Aesthetic Systems for Architecture</title>
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self' blob:; connect-src 'self'; frame-ancestors 'none';">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(to bottom, #06060a 0%, #0a0813 40%, #140f26 100%), radial-gradient(circle at 20% 85%, rgba(100,80,180,0.18), transparent 42%), radial-gradient(circle at 80% 88%, rgba(100,80,180,0.12), transparent 38%);
+            color: #e8e8e8;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 15% 90%, rgba(100,80,180,0.06), transparent 35%), radial-gradient(circle at 85% 95%, rgba(100,80,180,0.05), transparent 38%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        :root {
+            --accent: #6450b4;
+            --soft: rgba(255,255,255,0.08);
+            --light: rgba(255,255,255,0.03);
+            --white: #fff;
+            --gray: #999;
+            --black: #0a0a0a;
+        }
+
+        section {
+            padding: 8rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            text-align: center;
+            font-weight: 300;
+            margin-bottom: 4rem;
+            letter-spacing: 0.02em;
+        }
+
+        .kicker {
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-size: 0.8rem;
+            color: #8d82c5;
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 70vh;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(100,80,180,0.15) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 3rem;
+        }
+
+        .brand {
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: clamp(2.8rem, 9vw, 6rem);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.1rem 2rem;
+            background: rgba(7,6,10,0.65);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-brand {
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            color: #cfcfcf;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.1rem;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a {
+            color: #dcdcdc;
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            padding: 0.4rem 0.55rem;
+            transition: color 0.22s ease-out, background 0.22s ease-out;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .parallax {
+            will-change: transform;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-button {
+            padding: 1.2rem 3rem;
+            background: var(--white);
+            color: var(--black);
+            font-weight: 500;
+            border: 1px solid var(--white);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: background 0.22s ease-out, color 0.22s ease-out, border-color 0.22s ease-out;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--white);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--white);
+            border-color: var(--soft);
+            padding: 0.9rem 2.4rem;
+        }
+
+        .cta-button.secondary:hover {
+            border-color: var(--white);
+            color: var(--white);
+        }
+
+        .floating-cta {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10;
+            padding: 0.95rem 1.6rem;
+            border-radius: 999px;
+            background: linear-gradient(120deg, #fff, #cfc8ff);
+            color: #0a0a0a;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.7);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .floating-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 38px rgba(0,0,0,0.45);
+        }
+
+        .mini-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .mini-gallery img {
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid var(--soft);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+            object-fit: cover;
+        }
+
+        .micro-proof {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+            margin-top: 1.75rem;
+        }
+
+        .proof-pill {
+            padding: 0.45rem 1rem;
+            border: 1px solid var(--soft);
+            color: #cfcfcf;
+            font-size: 0.9rem;
+            letter-spacing: 0.06em;
+            transition: background 0.22s ease-out, color 0.22s ease-out, border-color 0.22s ease-out;
+        }
+
+        .proof-pill:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.18);
+            color: #ffffff;
+        }
+
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.6rem;
+            margin-top: 2rem;
+        }
+
+        .collection-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            background: #0e0d17;
+            box-shadow: 0 18px 42px rgba(0,0,0,0.45);
+            cursor: pointer;
+            transition: transform 0.22s ease-out, box-shadow 0.22s ease-out;
+        }
+
+        .collection-card img {
+            display: block;
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            filter: brightness(0.95) saturate(1.02);
+            transition: transform 0.22s ease-out, filter 0.22s ease-out;
+        }
+
+        .collection-meta {
+            position: absolute;
+            inset: auto 0 0 0;
+            padding: 1.1rem 1.2rem;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.9) 100%);
+        }
+
+        .collection-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .collection-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: #c9c4e8;
+            letter-spacing: 0.04em;
+        }
+
+        .collection-tag {
+            padding: 0.35rem 0.8rem;
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 999px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .collection-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 44px rgba(0,0,0,0.5);
+        }
+
+        .collection-card:hover img {
+            transform: scale(1.01);
+            filter: brightness(1.03) saturate(1.06);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.4rem;
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            padding: 1.6rem;
+            border: 1px solid var(--soft);
+            border-radius: 14px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .metric-value {
+            font-size: 1.3rem;
+            color: #f3f3f3;
+            margin-bottom: 0.4rem;
+        }
+
+        .metric-label {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .series-hero {
+            margin-bottom: 1.5rem;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 20px 48px rgba(0,0,0,0.45);
+        }
+
+        .series-hero img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .thumb-strip {
+            display: flex;
+            gap: 0.9rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 0.25rem 0;
+            justify-content: center;
+        }
+
+        .thumb-strip img {
+            flex: 0 0 180px;
+            border-radius: 12px;
+            object-fit: cover;
+            width: 180px;
+            height: 110px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+        }
+
+        .thumb-strip img:hover {
+            transform: translateY(-4px) scale(1.015);
+            box-shadow: 0 14px 30px rgba(0,0,0,0.45);
+            filter: brightness(1.03) saturate(1.05);
+        }
+
+        .thumb-strip {
+            scroll-snap-type: x proximity;
+        }
+
+        .thumb-strip img {
+            scroll-snap-align: start;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* STATS */
+        .stats {
+            border-top: 1px solid var(--soft);
+            border-bottom: 1px solid var(--soft);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            color: #777;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        /* AESTHETIC STRIP */
+        .aesthetic-strip {
+            display: flex;
+            gap: 1.2rem;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            padding: 0.5rem 0.25rem;
+        }
+
+        .aesthetic-strip img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border: none;
+            flex: 0 0 240px;
+        }
+
+        .aesthetic-caption {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-top: 1.5rem;
+        }
+
+        .series-subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-top: -2rem;
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        /* SYSTEM / WHY GTBY */
+        .system-box {
+            max-width: 960px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(90,70,170,0.16), rgba(18,14,30,0.92));
+            background-size: 180% 180%;
+            animation: systemBreath 14s ease-in-out infinite;
+            border: none;
+            padding: 2.6rem 2.8rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+            text-align: center;
+            color: var(--gray);
+            box-shadow: 0 30px 90px rgba(0,0,0,0.45);
+        }
+
+        .system-box p {
+            margin-bottom: 1.1rem;
+        }
+
+        .system-box strong {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        @keyframes systemBreath {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .system-cta {
+            margin-top: 1.6rem;
+            padding: 0.9rem 2.6rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: transparent;
+            color: #ffffff;
+            font-size: 0.85rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+        }
+
+        .system-cta:hover {
+            background: #ffffff;
+            color: #050509;
+            transform: translateY(-1px);
+        }
+
+        /* PROGRAM FLOW CARDS */
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .day-card {
+            background: var(--light);
+            border-left: 3px solid var(--accent);
+            padding: 2rem;
+            border-top: 1px solid var(--soft);
+        }
+
+        .day-number {
+            color: var(--accent);
+            letter-spacing: 0.25em;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .day-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* WHO IS THIS FOR */
+        .who-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .who-card {
+            background: var(--light);
+            border: 1px solid var(--soft);
+            padding: 2rem;
+        }
+
+        .who-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .who-text {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* TJM Block */
+        .tjm-box {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .tjm-value {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+        }
+
+        .tjm-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .tjm-line {
+            width: 140px;
+            height: 1px;
+            background: var(--accent);
+            margin: 0.75rem auto 0;
+        }
+
+        .tjm-subtext {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* OFFERS / ROI Block */
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .offer-card {
+            background: var(--light);
+            border: 1px solid var(--soft);
+            padding: 2.5rem 2rem;
+            text-align: left;
+        }
+
+        .offer-name {
+            font-size: 1.1rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .offer-scope {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #777;
+            margin-bottom: 0.75rem;
+        }
+
+        .offer-price {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .offer-tagline {
+            font-size: 0.95rem;
+            color: #bbb;
+            margin-bottom: 1rem;
+        }
+
+        .offer-list {
+            list-style: none;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .offer-list li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* LICENCES */
+        .license-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 2.5rem;
+        }
+
+        /* ROI SECTION */
+        .roi-section {
+            background: transparent;
+        }
+
+        .roi-text {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.98rem;
+        }
+
+        .roi-text p {
+            margin-bottom: 1rem;
+        }
+
+        .roi-list {
+            margin-top: 1.5rem;
+            list-style: none;
+            padding-left: 0;
+            font-size: 0.95rem;
+            color: var(--gray);
+        }
+
+        .roi-list li {
+            margin-bottom: 0.6rem;
+        }
+
+        /* WORLD MAP / GLOBAL RESONANCE */
+        .world-section {
+            text-align: center;
+        }
+
+        .world-subtext {
+            max-width: 760px;
+            margin: 1.8rem auto 0;
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .world-quote {
+            margin-top: 1.6rem;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #dddddd;
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .why-text {
+            max-width: 760px;
+            margin: 1.4rem auto 0;
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* COUNTRY TAGS UNDER MAP */
+        .flags {
+            margin-top: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.4rem;
+            justify-content: center;
+        }
+
+        .flag {
+            border: 1px solid var(--soft);
+            padding: 0.5rem 1.4rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* TESTIMONIALS */
+        .testimonials-section {
+            text-align: center;
+        }
+
+        .testimonial-rotator {
+            position: relative;
+            max-width: 900px;
+            margin: 1.5rem auto 0;
+            min-height: 180px;
+            text-align: center;
+        }
+
+        .testimonial-card {
+            background: transparent;
+            border: none;
+            padding: 0 2rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            position: absolute;
+            inset: 0;
+        }
+
+        .testimonial-card.active {
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
+        }
+
+        .testimonial-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            letter-spacing: 0.01em;
+            color: #f0f0f0;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            line-height: 1.8;
+        }
+
+        .testimonial-quote,
+        .world-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #dddddd;
+            font-style: italic;
+        }
+
+        .testimonial-meta {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 24px rgba(100, 80, 180, 0.6), 0 0 0 8px rgba(100,80,180,0.05); }
+            50% { box-shadow: 0 0 30px rgba(100, 80, 180, 0.9), 0 0 0 14px rgba(100,80,180,0.1); }
+            100% { box-shadow: 0 0 24px rgba(100, 80, 180, 0.6), 0 0 0 8px rgba(100,80,180,0.05); }
+        }
+
+        /* FINAL CTA */
+        .final-cta {
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .contact-subtext {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        @media (max-width: 760px) {
+            body { padding: 0; }
+            section { padding: 4.5rem 1.2rem; }
+            .top-nav { position: sticky; padding: 0.9rem 1.2rem; gap: 0.6rem; }
+            .nav-links { gap: 0.6rem; font-size: 0.8rem; flex-wrap: wrap; }
+            h1 { font-size: clamp(2.2rem, 9vw, 3.6rem); }
+            .hero { min-height: 60vh; }
+            .hero-subtitle { font-size: 1rem; }
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1.4rem; }
+            .series-hero img { border-radius: 12px; }
+            .thumb-strip { gap: 0.6rem; }
+            .thumb-strip img { flex: 0 0 140px; height: 90px; }
+            .days-grid, .offers-grid, .who-grid, .metrics-grid { grid-template-columns: 1fr; }
+            .testimonial-rotator { padding: 0 0.5rem; }
+            .cta-button { width: 100%; display: inline-block; text-align: center; }
+        .floating-cta { bottom: 16px; right: 16px; padding: 0.8rem 1.2rem; }
+        }
+
+        /* INTRO OVERLAY ----------------------------------------------------------- */
+
+        .intro-overlay {
+            position: fixed;
+            inset: 0;
+            background: #050509;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f5f5f5;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow: hidden;
+            opacity: 1;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .intro-overlay.intro-hidden {
+            opacity: 0;
+            transform: scale(1.02);
+            pointer-events: none;
+        }
+
+        .intro-inner {
+            position: relative;
+            width: min(900px, 92vw);
+            aspect-ratio: 16 / 9;
+            border-radius: 32px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow:
+                0 40px 120px rgba(0,0,0,0.9),
+                0 0 80px rgba(90,60,180,0.6);
+            background: #050509;
+        }
+
+        .intro-bg-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .intro-reel {
+            position: absolute;
+            inset: 50% auto auto 50%;
+            transform: translate(-50%, -50%);
+            width: min(70%, 640px);
+            aspect-ratio: 16 / 9;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow:
+                0 24px 70px rgba(0,0,0,0.9),
+                0 0 50px rgba(90,60,180,0.6);
+            z-index: 1;
+        }
+
+        .intro-reel-track,
+        .intro-frame {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .intro-frame {
+            opacity: 0;
+            transition: opacity 1.4s ease-in-out;
+            filter: saturate(1.1) contrast(1.05) brightness(0.95);
+        }
+
+        .intro-frame.active {
+            opacity: 1;
+        }
+
+        .intro-content {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            padding: 1.5rem 1.6rem 9.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .intro-label {
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.55);
+            margin-top: 0.5rem;
+            pointer-events: auto;
+        }
+
+        .intro-spacer {
+            flex: 1;
+        }
+
+        /* Texte CTA en bas : même vibe que GTBY — ARCHITECTURE, sans bouton */
+        .intro-cta-text {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 1.2rem;
+            margin: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #cccccc;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 720px) {
+            .intro-inner {
+                border-radius: 0;
+                width: 100vw;
+                height: 100vh;
+                aspect-ratio: auto;
+            }
+
+            .intro-content {
+                padding: 2.2rem 1.8rem 8rem;
+            }
+
+            .intro-cta-text {
+                bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- INTRO OVERLAY -->
+        <div class="intro-overlay" id="intro-overlay">
+            <div class="intro-inner">
+                <video class="intro-bg-video" autoplay muted playsinline loop preload="none">
+                    <source src="diegz-marks-intro.mp4" type="video/mp4">
+                </video>
+
+        <div class="intro-reel">
+            <div class="intro-reel-track">
+                    <img src="GTBY-Series4-03.png" class="intro-frame active" alt="" loading="lazy" fetchpriority="low">
+                    <img src="GTBY Series 3 - 01.png" class="intro-frame" alt="" loading="lazy" fetchpriority="low">
+                    <img src="gtby-winterpeak-ext-01.png" class="intro-frame" alt="" loading="lazy" fetchpriority="low">
+                    <img src="GTBY Series 2 - 01.png" class="intro-frame" alt="" loading="lazy" fetchpriority="low">
+            </div>
+        </div>
+
+            <div class="intro-content">
+                <div class="intro-label">GTBY — ARCHITECTURE</div>
+                <div class="intro-spacer"></div>
+                <div class="intro-cta-text">CLICK TO ENTER</div>
+            </div>
+        </div>
+    </div>
+
+    <header class="top-nav">
+        <div class="nav-brand">GTBY - ARCHITECTURE</div>
+        <div class="nav-links">
+            <a href="#why">Why</a>
+            <a href="#roi">ROI</a>
+            <a href="#programs">Programs</a>
+            <a href="#offers">Offers</a>
+            <a href="#visuals">Visuals</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content parallax">
+            <div class="brand">GTBY - GENERATE TO BE YOU</div>
+            <h1>Strategic AI Aesthetic Systems for Architecture</h1>
+            <p class="hero-subtitle">
+                Replace 2–3 weeks of visual production with a brand-calibrated<br>
+                AI aesthetic system delivered in 72 hours.
+            </p>
+            <a href="#contact" class="cta-button">Book a Strategic Call</a>
+            <div style="margin-top:1rem;">
+                <a href="#visuals" class="cta-button secondary">See the system output</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLAGSHIP PREVIEW -->
+    <section id="preview" class="reveal">
+        <h2 class="section-title">Flagship Visual Snapshot</h2>
+        <p class="series-subtitle" style="margin-top:-1rem;">What the system delivers in hours, not weeks</p>
+        <div class="mini-gallery">
+            <img src="gtby-winterpeak-ext-01.png" alt="GTBY Winterpeak Exterior Preview" loading="lazy" fetchpriority="low">
+            <img src="gtby-winterpeak-boardroom-01.png" alt="GTBY Winterpeak Boardroom Preview" loading="lazy" fetchpriority="low">
+        </div>
+        <div class="micro-proof">
+            <div class="proof-pill">Cinematic coherence</div>
+            <div class="proof-pill">On-brand prompts</div>
+            <div class="proof-pill">72h delivery</div>
+            <div class="proof-pill">Portfolio-ready</div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF -->
+    <section class="stats reveal">
+        <div class="kicker">Signal, not noise</div>
+        <div class="stats-grid">
+            <div>
+                <div class="stat-value">4M+</div>
+                <div class="stat-label">International views (no ads)</div>
+            </div>
+            <div>
+                <div class="stat-value">82%</div>
+                <div class="stat-label">Creators audience (18–34)</div>
+            </div>
+            <div>
+                <div class="stat-value">Global</div>
+                <div class="stat-label">USA • FR • RU • SA • KR • MENA</div>
+            </div>
+            <div>
+                <div class="stat-value">Cinematic</div>
+                <div class="stat-label">Architectural aesthetic mastery</div>
+            </div>
+            <div>
+                <div class="stat-value">600+</div>
+                <div class="stat-label">Visual series published</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY GTBY -->
+    <section class="reveal" id="why">
+        <h2 class="section-title">Why GTBY is Different</h2>
+        <div class="system-box">
+            <p><strong>GTBY is not an AI tool.</strong> It installs a reusable, brand-calibrated aesthetic system your teams deploy on every project, not one off renders.</p>
+
+            <p>Visual Vantage Plus™ speaks both your brand and Midjourney: it produces the exact prompts that keep cinematic coherence, protecting your visual sovereignty while cutting $150,000–$300,000 in traditional visualization per project.</p>
+
+            <p>Proven by <strong>600+ calibrated series</strong>, <strong>4M+ impressions</strong>, and <strong>three years of R&D</strong>. <strong>Take control of your aesthetic language before others define it.</strong></p>
+            <div style="margin-top:1.4rem;">
+                <button class="system-cta" type="button" onclick="location.href='#offers'">Explore the programs</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI SECTION -->
+    <section class="roi-section reveal" id="roi">
+        <h2 class="section-title">Return on Investment</h2>
+        <div class="roi-text">
+            <p>
+                Visual Vantage Plus™ does not generate images, it produces <strong>brand-calibrated prompts</strong> for Midjourney, built on your aesthetic DNA.
+            </p>
+            <p>
+                Your teams create <strong>coherent, on-brand architectural visuals in minutes</strong> instead of days, across phases, spaces and scenarios.
+            </p>
+
+            <ul class="roi-list">
+                <li>• <strong>Time ROI:</strong> 2–3 weeks of production compressed into a 3–10 day build.</li>
+                <li>• <strong>Cost ROI:</strong> traditional visualization reduced by <strong>$150,000–$300,000</strong> per project over time.</li>
+                <li>• <strong>System ROI:</strong> the more you use it, the more it refines and extends, without rebuilding from scratch.</li>
+            </ul>
+            <div style="margin-top:2rem;">
+                <a class="cta-button secondary" href="#contact">Book the ROI call</a>
+            </div>
+        </div>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">72h</div>
+                <div class="metric-label">System delivered & calibrated</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$150k–$300k</div>
+                <div class="metric-label">Visualization costs saved per project over time</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">600+ series</div>
+                <div class="metric-label">Proven aesthetic coherence</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM FLOW -->
+    <section class="reveal" id="programs">
+        <h2 class="section-title">How each GTBY program unfolds</h2>
+
+        <div class="days-grid">
+            <!-- SIGNATURE -->
+            <div class="day-card">
+                <div class="day-number">SIGNATURE · 3 DAYS</div>
+                <div class="day-title">Core Aesthetic System Sprint</div>
+                <p>Day 1 - Audit & DNA: brand analysis, coherence mapping, key assets secured.</p>
+                <p>Day 2 - System build: calibration, core modules, Visual Blueprint™ inside Visual Vantage Plus™.</p>
+                <p>Day 3 - Deployment & training: on-site handover, workflow integration, team activation.</p>
+                <p style="margin-top:1rem; color:#999; font-size:0.9rem;">Full 3-day sprint in every program. Signature focuses on one flagship zone.</p>
+            </div>
+
+            <!-- FOUNDATION -->
+            <div class="day-card">
+                <div class="day-number">FOUNDATION · 5 DAYS</div>
+                <div class="day-title">Expanded Aesthetic Infrastructure</div>
+                <p>Days 1-3 - Core sprint (Signature): audit, system build, deployment, on-site training.</p>
+                <p>Days 4-5 - Expansion: multi-zones / programs, advanced modules, scenarios with decision-makers.</p>
+                <p style="margin-top:1rem; color:#999; font-size:0.9rem;">For developments needing coverage beyond one space or program.</p>
+            </div>
+
+            <!-- LEGACY -->
+            <div class="day-card">
+                <div class="day-number">LEGACY · 7–10 DAYS</div>
+                <div class="day-title">Long-Term Aesthetic Infrastructure</div>
+                <p>Days 1-3 - Core sprint: aesthetic DNA set, system anchored.</p>
+                <p>Days 4-7 - Portfolio / district build: roll-out across assets, extended modules, narrative + video structures.</p>
+                <p>Days 8-10 (optional) - Immersion & advisory: on-site refinement, executive alignment, long-term governance.</p>
+                <p style="margin-top:1rem; color:#999; font-size:0.9rem;">For portfolios and districts securing aesthetic sovereignty ahead of competitors.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- INVESTMENT & STRUCTURE -->
+    <section id="offers" class="reveal">
+        <h2 class="section-title">Investment & Structure</h2>
+
+        <div class="panel">
+            <div class="tjm-box">
+                <div class="tjm-value">$10,000 / day</div>
+                <div class="tjm-label">Senior Creative Technologist & Aesthetic Architect</div>
+                <div class="tjm-line"></div>
+                <div class="tjm-subtext">
+                    Used as the base for extended consulting, on-site work and bespoke engagements.
+                </div>
+            </div>
+
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <div class="offer-name">SIGNATURE</div>
+                    <div class="offer-scope">FOR ONE FLAGSHIP UNIVERSE</div>
+                    <div class="offer-price">$80,000</div>
+                    <div class="offer-tagline">3-Day Visual Vantage Plus™ Aesthetic System Sprint</div>
+                    <ul class="offer-list">
+                        <li>• Full aesthetic audit & DNA extraction</li>
+                        <li>• Visual Vantage Plus™ system calibration</li>
+                        <li>• Visual Blueprint™ for one flagship zone</li>
+                        <li>• On-site presence for calibration & team training</li>
+                        <li>• Delivery in 3 days</li>
+                    </ul>
+                </div>
+
+                <div class="offer-card">
+                    <div class="offer-name">FOUNDATION</div>
+                    <div class="offer-scope">FOR YOUR FULL PROJECT</div>
+                    <div class="offer-price">$200,000</div>
+                    <div class="offer-tagline">5-Day Aesthetic Infrastructure Program</div>
+                    <ul class="offer-list">
+                        <li>• Everything in Signature</li>
+                        <li>• Extended system coverage (multi-zones / programs)</li>
+                        <li>• Advanced visual modules & scenarios</li>
+                        <li>• Strategic sessions with decision-makers</li>
+                        <li>• On-site presence across key days</li>
+                        <li>• Delivery in 5 days</li>
+                    </ul>
+                </div>
+
+                <div class="offer-card">
+                    <div class="offer-name">LEGACY</div>
+                    <div class="offer-scope">FOR PORTFOLIOS & DISTRICTS</div>
+                    <div class="offer-price">$500,000</div>
+                    <div class="offer-tagline">Long-term aesthetic infrastructure for visionary portfolios & districts</div>
+                    <ul class="offer-list">
+                        <li>• Full-scale aesthetic system for a portfolio or district</li>
+                        <li>• Visual Vantage Plus™ + video / narrative extensions</li>
+                        <li>• On-site presence for immersion and rollout</li>
+                        <li>• Advisory support over time</li>
+                        <li>• Delivery in 7–10 days</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="license-note">
+                Ongoing system license per assistant:<br>
+                <strong>$1,500 / month</strong> for Signature,
+                <strong>$3,000 / month</strong> for Foundation,
+                <strong>$5,000 / month</strong> for Legacy.
+            </p>
+        </div>
+    </section>
+
+    <!-- WHO IS THIS FOR -->
+    <section class="reveal">
+        <h2 class="section-title">Who is this for?</h2>
+
+        <div class="who-grid">
+            <div class="who-card">
+                <div class="who-title">Developers & Investors</div>
+                <p class="who-text">
+                    High-end real estate and hospitality projects that need a coherent aesthetic system
+                    for presentations, approvals and global communication.
+                </p>
+            </div>
+            <div class="who-card">
+                <div class="who-title">Architecture & Design Studios</div>
+                <p class="who-text">
+                    Studios who want to explore, iterate and present architectural worlds
+                    without losing coherence or spending weeks on manual production.
+                </p>
+            </div>
+            <div class="who-card">
+                <div class="who-title">Founders & Creative Directors</div>
+                <p class="who-text">
+                    Vision-driven leaders who need a stable visual infrastructure
+                    that can support multiple projects, campaigns and evolutions of their brand.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERIES 1 -->
+    <!-- SERIES 1 -->
+    <section id="visuals" class="reveal">
+        <h2 class="section-title">Architectural Aesthetic - Series I</h2>
+        <p class="series-subtitle">CANYON / RESORT VISION</p>
+        <div class="series-hero">
+            <img src="GTBY-Series4-03.png" alt="Series IV - Placeholder Hero" loading="lazy" fetchpriority="low">
+        </div>
+        <div class="thumb-strip">
+            <img src="GTBY-Series4-03.png" alt="Series IV - Placeholder 3" loading="lazy" fetchpriority="low">
+            <img src="GTBY-Series4-01.png" alt="Series IV - Placeholder 1" loading="lazy" fetchpriority="low">
+            <img src="GTBY-Series4-02.png" alt="Series IV - Placeholder 2" loading="lazy" fetchpriority="low">
+            <img src="GTBY-Series4-04.png" alt="Series IV - Placeholder 4" loading="lazy" fetchpriority="low">
+            <img src="GTBY-Series4-05.png" alt="Series IV - Placeholder 5" loading="lazy" fetchpriority="low">
+            <img src="GTBY-Series4-06.png" alt="Series IV - Placeholder 6" loading="lazy" fetchpriority="low">
+        </div>
+        <p class="aesthetic-caption">
+            All images are generated and calibrated through the GTBY system, no stock, no templates.
+        </p>
+    </section>
+
+    <!-- SERIES 2 -->
+    <section class="reveal">
+        <h2 class="section-title">Architectural Aesthetic - Series II</h2>
+        <p class="series-subtitle">URBAN / SKYLINE VISION</p>
+        <div class="series-hero">
+            <img src="GTBY Series 3 - 01.png" alt="GTBY Series 3 - Flagship Shot" loading="lazy" fetchpriority="low">
+        </div>
+        <div class="thumb-strip">
+            <img src="GTBY Series 3 - 01.png" alt="GTBY Series 3 - 01" loading="lazy" fetchpriority="low">
+            <img src="GTBY Series 3 - 02.png" alt="GTBY Series 3 - 02" loading="lazy" fetchpriority="low">
+            <img src="GTBY Series 3 - 03.png" alt="GTBY Series 3 - 03" loading="lazy" fetchpriority="low">
+            <img src="GTBY Series 3 - 04.png" alt="GTBY Series 3 - 04" loading="lazy" fetchpriority="low">
+            <img src="GTBY Series 3 - 05.png" alt="GTBY Series 3 - 05" loading="lazy" fetchpriority="low">
+        </div>
+        <p class="aesthetic-caption">
+            Third collection for skyline, mixed-use developments or conceptual urban environments.
+        </p>
+    </section>
+
+    <!-- SERIES 3 -->
+    <section class="reveal">
+        <h2 class="section-title">Architectural Aesthetic - Series III</h2>
+        <p class="series-subtitle">WINTERPEAK COLLECTION</p>
+        <div class="series-hero">
+            <img src="gtby-winterpeak-ext-01.png" alt="GTBY Winterpeak Exterior" loading="lazy" fetchpriority="low">
+        </div>
+        <div class="thumb-strip">
+            <img src="gtby-winterpeak-boardroom-01.png" alt="GTBY Winterpeak Boardroom" loading="lazy" fetchpriority="low">
+            <img src="gtby-winterpeak-corridor-01.png" alt="GTBY Winterpeak Corridor" loading="lazy" fetchpriority="low">
+            <img src="gtby-winterpeak-peaceroom-01.png" alt="GTBY Winterpeak Peace Room" loading="lazy" fetchpriority="low">
+            <img src="gtby-winterpeak-bedroom-01.png" alt="GTBY Winterpeak Bedroom" loading="lazy" fetchpriority="low">
+            <img src="gtby-winterpeak-spa-01.png" alt="GTBY Winterpeak Spa" loading="lazy" fetchpriority="low">
+        </div>
+        <p class="aesthetic-caption">
+            All images are generated and calibrated through the GTBY system, no stock, no templates.
+        </p>
+    </section>
+
+    <!-- SERIES 4 -->
+    <section class="reveal">
+        <h2 class="section-title">Architectural Aesthetic - Series IV</h2>
+        <p class="series-subtitle">DESERT / RESORT VISION</p>
+        <div class="series-hero">
+            <img src="GTBY Series 2 - 01.png" alt="GTBY Series 2 - 01" loading="lazy" fetchpriority="low">
+        </div>
+        <div class="thumb-strip">
+            <img src="GTBY Series 2 - 02.png" alt="GTBY Series 2 - 02" loading="lazy" fetchpriority="low">
+            <img src="GTBY Series 2 - 03.png" alt="GTBY Series 2 - 03" loading="lazy" fetchpriority="low">
+            <img src="GTBY Series 2 - 04.png" alt="GTBY Series 2 - 04" loading="lazy" fetchpriority="low">
+            <img src="GTBY Series 2 - 05.png" alt="GTBY Series 2 - 05" loading="lazy" fetchpriority="low">
+        </div>
+        <p class="aesthetic-caption">
+            Second collection space reserved for your desert / resort / coastal luxury world.
+        </p>
+    </section>
+
+    <!-- TESTIMONIALS / QUOTES -->
+    <section class="testimonials-section reveal">
+        <h2 class="section-title">How people react to GTBY visuals</h2>
+
+        <div class="testimonial-rotator">
+            <div class="testimonial-card active" data-index="0">
+                <div class="testimonial-quote">
+                    “I have a friend in California whose house looks almost exactly like this.
+                    I had to look twice to believe it was generated.”
+                </div>
+                <div class="testimonial-meta">
+                    Message received on an architectural night series
+                </div>
+            </div>
+
+            <div class="testimonial-card" data-index="1">
+                <div class="testimonial-quote">
+                    “Are you an architect or are these just AI images?
+                    I can’t tell where the line is anymore.”
+                </div>
+                <div class="testimonial-meta">
+                    Comment from an architecture student
+                </div>
+            </div>
+
+            <div class="testimonial-card" data-index="2">
+                <div class="testimonial-quote">
+                    “I thought this was a real hotel project in the Gulf.
+                    The atmosphere feels alive and already built.”
+                </div>
+                <div class="testimonial-meta">
+                    Reaction to a resort / MENA-inspired series
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GLOBAL RESONANCE (sans carte) -->
+    <section class="world-section">
+        <h2 class="section-title">Global Resonance</h2>
+
+        <p class="why-text">
+            GTBY visuals have reached audiences across continents, from North America to Europe,
+            the Gulf region and Asia, with over 4 million organic impressions.
+        </p>
+
+        <p class="world-subtext">
+            Resonance is not a metric, it is a signal that the aesthetic language is alive and understood.
+        </p>
+
+        <p class="world-quote">
+            “What I create doesn’t exist yet. But you already feel it.”
+        </p>
+
+        <div class="flags">
+            <div class="flag">France</div>
+            <div class="flag">USA</div>
+            <div class="flag">Saudi Arabia</div>
+            <div class="flag">Mexico</div>
+            <div class="flag">Germany</div>
+            <div class="flag">Russia</div>
+            <div class="flag">Ukraine</div>
+            <div class="flag">Iraq</div>
+            <div class="flag">Brazil</div>
+            <div class="flag">Italy</div>
+            <div class="flag">Czech Republic</div>
+            <div class="flag">Kazakhstan</div>
+            <div class="flag">Colombia</div>
+            <div class="flag">South Korea</div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA / CONTACT -->
+    <section class="final-cta reveal" id="contact">
+        <h2 class="section-title">Ready to build your creative infrastructure?</h2>
+
+        <a class="cta-button" href="https://calendly.com/yakouroman/30min" target="_blank" rel="noopener noreferrer">Book a Strategic Call</a>
+        <div style="margin-top:1rem;">
+            <a class="cta-button secondary" href="#roi">See ROI details</a>
+        </div>
+
+        <p class="contact-subtext">
+            Prefer email? Contact me at
+            <a href="mailto:diegzmarks.ai@outlook.com" style="color:#e8e8e8; text-decoration:underline;">
+                diegzmarks.ai@outlook.com
+            </a>
+        </p>
+    </section>
+
+    <footer style="text-align:center; padding: 2rem 1rem 3rem; font-size:0.9rem; color: rgba(255,255,255,0.45);">
+        © GTBY — All visuals are original or AI-generated under exclusive creative ownership.
+    </footer>
+
+    <a class="floating-cta" href="https://calendly.com/yakouroman/30min" target="_blank" rel="noopener noreferrer">Book GTBY</a>
+
+    <script>
+        // Intersection Observer for reveal animations
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        reveals.forEach(el => observer.observe(el));
+
+        // Parallax for selected elements
+        const parallaxEls = document.querySelectorAll('.parallax');
+        const parallax = () => {
+            const scrollY = window.scrollY || window.pageYOffset;
+            parallaxEls.forEach(el => {
+                const speed = el.classList.contains('world-map') ? 0.08 : 0.12;
+                el.style.transform = `translateY(${scrollY * speed}px)`;
+            });
+            requestAnimationFrame(parallax);
+        };
+        requestAnimationFrame(parallax);
+
+        // Simple rotator for testimonials with smoother crossfade
+        const testimonials = document.querySelectorAll('.testimonial-card');
+        let currentTestimonial = 0;
+
+        setInterval(() => {
+            testimonials[currentTestimonial].classList.remove('active');
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            testimonials[currentTestimonial].classList.add('active');
+        }, 4200);
+
+        // Intro overlay
+        (function() {
+            const overlay = document.getElementById('intro-overlay');
+            if (!overlay) return;
+
+            // Force l'affichage (désactive le skip localStorage pour debug/preview)
+            const INTRO_KEY = 'gtbyIntroSeen';
+
+            const frames = Array.from(overlay.querySelectorAll('.intro-frame'));
+            const enterBtn = overlay.querySelector('.intro-enter');
+            let current = 0;
+
+            function showFrame(index) {
+                frames.forEach((f, i) => {
+                    f.classList.toggle('active', i === index);
+                });
+            }
+
+            function nextFrame() {
+                if (!frames.length) return;
+                current = (current + 1) % frames.length;
+                showFrame(current);
+            }
+
+            showFrame(current);
+            const interval = setInterval(nextFrame, 3400);
+
+            function hideIntro() {
+                overlay.classList.add('intro-hidden');
+                clearInterval(interval);
+                try {
+                    if (window.localStorage) {
+                        localStorage.setItem(INTRO_KEY, '1');
+                    }
+                } catch (e) {}
+            }
+
+            if (enterBtn) {
+                enterBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    hideIntro();
+                });
+            }
+
+            overlay.addEventListener('click', hideIntro);
+        })();
+
+        // Anti-copy protection (context menu, drag, long-press on images)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('dragstart', event => event.preventDefault());
+        document.addEventListener('touchstart', event => {
+            if (event.target.tagName === 'IMG') {
+                event.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
