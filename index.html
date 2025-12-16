@@ -833,6 +833,30 @@
             color: var(--gray);
         }
 
+        /* Harmonize final CTA buttons with hero */
+        .final-cta .cta-button {
+            display: block;
+            width: 260px;
+            margin: 0 auto;
+            padding: 1.1rem 2.6rem;
+        }
+        .final-cta .cta-button + .cta-button.secondary {
+            margin-top: 0.75rem;
+            border-top: none;
+            border-radius: 0;
+        }
+        .final-cta .cta-button.secondary {
+            border: 1px solid rgba(255,255,255,0.25);
+            color: #f0f0f0;
+            background: transparent;
+            padding: 1rem 2.6rem;
+        }
+        .final-cta .cta-button.secondary:hover {
+            border-color: #ffffff;
+            color: #ffffff;
+            background: rgba(255,255,255,0.06);
+        }
+
         /* LIGHTBOX FULLSCREEN -------------------------------------------------- */
 
         .lightbox {
