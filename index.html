@@ -15,6 +15,10 @@
         /* Base Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html {
+            scroll-behavior: auto;
+        }
+
         body {
             font-family: 'Space Grotesk', sans-serif;
             background: linear-gradient(to bottom, #06060a 0%, #0a0813 40%, #140f26 100%), radial-gradient(circle at 20% 85%, rgba(100,80,180,0.18), transparent 42%), radial-gradient(circle at 80% 88%, rgba(100,80,180,0.12), transparent 38%);
@@ -159,6 +163,11 @@
             font-size: 0.9rem;
             letter-spacing: 0.3em;
             color: #cfcfcf;
+        }
+
+        .nav-brand a {
+            color: inherit;
+            text-decoration: none;
         }
 
         .nav-links {
@@ -1151,7 +1160,7 @@
     </style>
 </head>
 
-<body>
+<body id="top">
 
     <!-- INTRO OVERLAY -->
         <div class="intro-overlay" id="intro-overlay">
@@ -1178,7 +1187,7 @@
     </div>
 
     <header class="top-nav">
-        <div class="nav-brand">GTBY - ARCHITECTURE</div>
+        <div class="nav-brand"><a href="#top">GTBY - ARCHITECTURE</a></div>
         <div class="nav-links">
             <a href="#why">Why</a>
             <a href="#roi">ROI</a>
@@ -1674,6 +1683,7 @@
 
             function hideIntro() {
                 overlay.classList.add('intro-hidden');
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                 clearInterval(interval);
                 try {
                     if (window.localStorage) {
@@ -1690,6 +1700,44 @@
             }
 
             overlay.addEventListener('click', hideIntro);
+        })();
+
+        // Fast smooth scroll for all in-page anchors with sticky header offset
+        (function() {
+            const header = document.querySelector('.top-nav');
+            const offset = () => (header ? header.offsetHeight + 8 : 0);
+            const durationMs = 350;
+
+            function easeOutCubic(t) {
+                return 1 - Math.pow(1 - t, 3);
+            }
+
+            function smoothScrollTo(targetY) {
+                const startY = window.pageYOffset;
+                const distance = targetY - startY;
+                const startTime = performance.now();
+
+                function step(now) {
+                    const elapsed = now - startTime;
+                    const t = Math.min(elapsed / durationMs, 1);
+                    const eased = easeOutCubic(t);
+                    window.scrollTo(0, startY + distance * eased);
+                    if (t < 1) requestAnimationFrame(step);
+                }
+                requestAnimationFrame(step);
+            }
+
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const id = link.getAttribute('href');
+                    if (!id || id === '#') return;
+                    const target = document.querySelector(id);
+                    if (!target) return;
+                    e.preventDefault();
+                    const top = target.getBoundingClientRect().top + window.pageYOffset - offset();
+                    smoothScrollTo(top);
+                });
+            });
         })();
 
         // LIGHTBOX / FULLSCREEN VIEWER FOR SERIES IMAGES
