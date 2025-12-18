@@ -1706,7 +1706,7 @@
         (function() {
             const header = document.querySelector('.top-nav');
             const offset = () => (header ? header.offsetHeight + 8 : 0);
-            const durationMs = 350;
+            const durationMs = 700;
 
             function easeOutCubic(t) {
                 return 1 - Math.pow(1 - t, 3);
@@ -1740,91 +1740,22 @@
             });
         })();
 
-        // LIGHTBOX / FULLSCREEN VIEWER FOR SERIES IMAGES
+        // Swap thumbnails into the hero image (no fullscreen lightbox)
         (function() {
-            const lightbox = document.getElementById('lightbox');
-            if (!lightbox) return;
-
-            const lightboxImg  = lightbox.querySelector('.lightbox-image');
-            const btnClose     = lightbox.querySelector('.lightbox-close');
-            const btnPrev      = lightbox.querySelector('.lightbox-prev');
-            const btnNext      = lightbox.querySelector('.lightbox-next');
-
-            // Toutes les images de séries (hero + thumbnails)
-            const galleryImages = Array.from(
-                document.querySelectorAll('.series-hero img, .thumb-strip img')
-            );
-
-            let currentIndex = 0;
-
-            function openLightbox(index) {
-                if (!galleryImages[index]) return;
-                currentIndex = index;
-                lightboxImg.src = galleryImages[index].src;
-                lightbox.classList.add('open');
-            }
-
-            function closeLightbox() {
-                lightbox.classList.remove('open');
-                lightboxImg.src = '';
-            }
-
-            function showNext(delta) {
-                const total = galleryImages.length;
-                currentIndex = (currentIndex + delta + total) % total;
-                lightboxImg.src = galleryImages[currentIndex].src;
-            }
-
-            // Rendre les images cliquables
-            galleryImages.forEach((img, index) => {
-                img.style.cursor = 'zoom-in';
-                img.addEventListener('click', () => openLightbox(index));
-            });
-
-            // Boutons
-            btnClose.addEventListener('click', closeLightbox);
-            btnPrev.addEventListener('click', () => showNext(-1));
-            btnNext.addEventListener('click', () => showNext(1));
-
-            // Fermer en cliquant sur le fond
-            lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) {
-                    closeLightbox();
-                }
-            });
-
-            // Navigation au clavier (sur desktop)
-            document.addEventListener('keydown', (e) => {
-                if (!lightbox.classList.contains('open')) return;
-                if (e.key === 'Escape') closeLightbox();
-                if (e.key === 'ArrowRight') showNext(1);
-                if (e.key === 'ArrowLeft') showNext(-1);
-            });
-
-            // Swipe au doigt sur mobile pour passer d'une image à l'autre
-            let touchStartX = null;
-
-            lightbox.addEventListener('touchstart', (e) => {
-                if (e.touches.length === 1) {
-                    touchStartX = e.touches[0].clientX;
-                }
-            }, { passive: true });
-
-            lightbox.addEventListener('touchend', (e) => {
-                if (touchStartX === null) return;
-                const endX = e.changedTouches[0].clientX;
-                const deltaX = endX - touchStartX;
-
-                // Seuil pour considérer que c’est un vrai swipe
-                if (Math.abs(deltaX) > 40) {
-                    if (deltaX < 0) {
-                        showNext(1);
-                    } else {
-                        showNext(-1);
-                    }
-                }
-
-                touchStartX = null;
+            const seriesSections = document.querySelectorAll('.series-hero');
+            seriesSections.forEach(heroWrap => {
+                const heroImg = heroWrap.querySelector('img');
+                if (!heroImg) return;
+                const section = heroWrap.closest('section');
+                if (!section) return;
+                const thumbs = section.querySelectorAll('.thumb-strip img');
+                thumbs.forEach(thumb => {
+                    thumb.style.cursor = 'pointer';
+                    thumb.addEventListener('click', () => {
+                        heroImg.src = thumb.src;
+                        heroImg.alt = thumb.alt || heroImg.alt;
+                    });
+                });
             });
         })();
 
